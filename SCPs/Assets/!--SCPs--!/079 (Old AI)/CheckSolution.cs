@@ -152,7 +152,7 @@ public class CheckSolution : MonoBehaviour {
          case 20: //1234 to 4321
             bool Case20Temp = false;
 
-               for (int i = 0; i < Input.ToString().Length - 4; i += 2) {
+               for (int i = 0; i < Input.ToString().Length - 4; i++) {
                     int validNum;
                   if (int.TryParse(Input.ToString().Substring(i, 4), out validNum) && validNum >= 1234 && validNum <= 4321) {
                      Case20Temp = true;

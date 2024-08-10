@@ -15,7 +15,7 @@ public class SCP079 : MonoBehaviour {
    public AudioSource HumAS;
    public AudioClip HumAC;
 
-   public TextMesh Code;
+   public TextMesh Code, DebugRotTxt;
 
    public KMSelectable Mod;
 
@@ -134,8 +134,13 @@ public class SCP079 : MonoBehaviour {
    }
 
    void Update () {
-         Debug.Log(Mod.transform.rotation.eulerAngles.x); //288 - 75X
-      //Debug.Log(Mod.transform.rotation.eulerAngles.z); //286 - 70Z
+        //Debug.Log(Mod.transform.rotation.eulerAngles.x); //288 - 75X
+        //Debug.Log(Mod.transform.rotation.eulerAngles.z); //286 - 70Z
+        if (DebugRotTxt != null)
+        {
+            DebugRotTxt.text = Mod.transform.rotation.eulerAngles.ToString();
+            DebugRotTxt.color = InvalidViewPoint() ? Color.red : Color.green;
+        }
       if (!Application.isEditor) { //Matches the hum to the game volume, has to be audio source since it stops midway
          HumAS.volume = GameMusicControl.GameSFXVolume;
       }
@@ -143,7 +148,8 @@ public class SCP079 : MonoBehaviour {
          HumAS.volume = 0;
       }
       
-      if (Cooldown || ModuleSolved || !InvalidViewPoint()) {
+      if (Cooldown || ModuleSolved// || !InvalidViewPoint()
+            ) {
          return;
       }
       if (Focused) {
