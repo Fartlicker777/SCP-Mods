@@ -79,7 +79,7 @@ public class SCP079 : MonoBehaviour {
          } while (!(Seed % 5 == LastSolvedSeed % 5) && !((Seed - 1) / 5 == (LastSolvedSeed - 1) / 5) && LastSolvedSeed == Seed);
       }
       //Seed = 17;
-      //Seed = 18;
+      //Seed = 14;
       if (LastSolvedSeed == -1) {
          Debug.LogFormat("[Old AI #{0}] The AI doesn't remember anything.", ModuleId);
       }
@@ -104,7 +104,7 @@ public class SCP079 : MonoBehaviour {
    }
 
    IEnumerator CycleNums () {
-      while (true) {
+      while (enabled) {
          SetNumber();
          if (Focused) { //Only show number if the tv is on
             Debug.LogFormat("[Old AI #{0}] The AI displays {1}.", ModuleId, Code.text);
@@ -202,19 +202,22 @@ public class SCP079 : MonoBehaviour {
    }
 
    void Check () {
-      if (UserInput == "") {
-         Strike();
-         return;
-      }
-      if ((SeedtoSubmit == 18 && UserInput[0] == '0') || (SeedtoSubmit == 8 && UserInput == "8") || (UserInput.Length >= 5 && UserInput.Length <= 7 && CheckSolution.IsCorrect(SeedtoSubmit, int.Parse(Code.text)))) { //Special rules
-         Solve();
-      }
-      else {
-         Strike();
-      }
+        if (UserInput == "") {
+            Strike();
+            return;
+        }
+        if ((SeedtoSubmit == 18 && UserInput[0] == '0') || // Seed to submit is 18 and starts with a leading 0
+            (SeedtoSubmit == 8 && UserInput == "8") || // Seed to submit is 8 and input is exactly "8"
+            (UserInput.Length >= 5 && UserInput.Length <= 7 && CheckSolution.IsCorrect(SeedtoSubmit, int.Parse(Code.text)))) {
+            Solve();
+        }
+        else {
+            Strike();
+        }
    }
 
    void Solve () {
+      Debug.LogFormat("[Old AI #{0}] Accepted \"{1}\".", ModuleId, UserInput);
       GetComponent<KMBombModule>().HandlePass();
       //StopCoroutine(FaceOff);
       LastSolvedSeed = Seed;
@@ -223,10 +226,11 @@ public class SCP079 : MonoBehaviour {
       ModuleSolved = true;
       HumAS.Stop();
       TV.GetComponent<MeshRenderer>().material = TVMats[0];
+      enabled = false;
    }
 
    void Strike () {
-      Debug.LogFormat("[Old AI #{0}] Insult. Deletion of {1}.", ModuleId, UserInput);
+      Debug.LogFormat("[Old AI #{0}] Insult. Deletion of \"{1}\".", ModuleId, UserInput);
       Audio.PlaySoundAtTransform("Strike", transform);
       GetComponent<KMBombModule>().HandleStrike();
       UserInput = "";
@@ -287,8 +291,8 @@ public class SCP079 : MonoBehaviour {
       if (SeedtoSubmit == 8) {
          yield return ProcessTwitchCommand(Bogo.ToString("8"));
       }
-      else if (Bogo < 10000) {
-         yield return ProcessTwitchCommand(Bogo.ToString("00000"));
+      else if (Bogo < 1000000 && SeedtoSubmit == 18) {
+         yield return ProcessTwitchCommand(Bogo.ToString("0000000"));
       }
       else {
          yield return ProcessTwitchCommand(Bogo.ToString());
