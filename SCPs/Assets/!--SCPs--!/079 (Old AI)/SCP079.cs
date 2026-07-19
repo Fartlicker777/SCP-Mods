@@ -57,9 +57,11 @@ public class SCP079 : MonoBehaviour {
    }
 
    KeyCode[] TheKeys = {
-      KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Backspace, KeyCode.KeypadEnter, KeyCode.Return
+      KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9,
+        KeyCode.Keypad0, KeyCode.Keypad1, KeyCode.Keypad2, KeyCode.Keypad3, KeyCode.Keypad4, KeyCode.Keypad5, KeyCode.Keypad6, KeyCode.Keypad7, KeyCode.Keypad8, KeyCode.Keypad9,
+        KeyCode.Backspace, KeyCode.KeypadEnter, KeyCode.Return
    };
-   string NotTheKeys = "0123456789<>>";
+   string NotTheKeys = "01234567890123456789<>>";
 
    void Start () {
 
